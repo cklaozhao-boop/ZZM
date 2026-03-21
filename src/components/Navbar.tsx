@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { cn } from '@/src/lib/utils';
-import { Users, Workflow, Calendar, Package, Home, Globe } from 'lucide-react';
+import { Users, Workflow, Calendar, Package, Home, Globe, Shield } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Navbar() {
@@ -60,6 +60,23 @@ export default function Navbar() {
         <Globe size={18} />
         <span className="hidden md:block text-xs font-bold uppercase w-6 text-center">{language === 'en' ? 'ZH' : 'EN'}</span>
       </motion.button>
+
+      <motion.div
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="pointer-events-auto"
+      >
+        <Link
+          to="/admin"
+          className={cn(
+            'flex items-center gap-2 rounded-full border border-white/20 bg-white/70 p-3 text-gray-500 shadow-2xl backdrop-blur-xl transition-all hover:text-brand',
+            location.pathname === '/admin' && 'text-brand',
+          )}
+        >
+          <Shield size={18} />
+          <span className="hidden md:block text-xs font-bold">{language === 'en' ? 'ADMIN' : '后台'}</span>
+        </Link>
+      </motion.div>
     </nav>
   );
 }

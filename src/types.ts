@@ -8,15 +8,21 @@ export interface Agent {
   avatar: string;
   downloadUrl?: string;
   achievements?: string[];
+  configSummary?: string;
+  scaleSummary?: string;
+  repoUrl?: string;
 }
 
 export interface DailyLog {
   id: string;
   date: string;
+  title?: string;
+  summary?: string;
   content: string;
   tasksCompleted: string[];
   revenueGenerated: number;
   iterationDetails?: string;
+  tags?: string[];
 }
 
 export interface WorkflowStep {
@@ -32,11 +38,15 @@ export interface Workflow {
   description: string;
   icon: string;
   steps: WorkflowStep[];
+  inputDemo?: string;
+  outputDemo?: string;
+  implementationNotes?: string;
 }
 
 export interface Product {
   id: string;
   name: string;
+  category?: string;
   description: string;
   longDescription?: string;
   agentsInvolved: string[];

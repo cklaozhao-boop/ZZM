@@ -16,6 +16,7 @@ import WorkflowDetails from './pages/WorkflowDetails';
 import DailyReview from './pages/DailyReview';
 import Products from './pages/Products';
 import ProductDetails from './pages/ProductDetails';
+import Admin from './pages/Admin';
 import { db, collection, getDocs, addDoc } from './firebase';
 import { LanguageProvider } from './context/LanguageContext';
 
@@ -286,6 +287,7 @@ export default function App() {
               <Route path="/daily-review/:id" element={<DailyReview />} />
               <Route path="/products" element={<Products />} />
               <Route path="/products/:id" element={<ProductDetails />} />
+              <Route path="/admin" element={<Admin />} />
             </Routes>
           </main>
           <Footer />

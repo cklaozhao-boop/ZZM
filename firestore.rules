@@ -7,8 +7,11 @@ service cloud.firestore {
     }
     function isAdmin() {
       return isAuthenticated() && 
-             request.auth.token.email == "cklaozhao@gmail.com" && 
-             request.auth.token.email_verified == true;
+             request.auth.token.email_verified == true &&
+             (
+               request.auth.token.email == "cklaozhao@gmail.com" ||
+               exists(/databases/$(database)/documents/libuOperators/$(request.auth.uid))
+             );
     }
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
@@ -66,3 +69,8 @@ service cloud.firestore {
     }
   }
 }
+    // Libu operators - optional future expansion for more backoffice editors
+    match /libuOperators/{userId} {
+      allow read: if isAdmin() || isOwner(userId);
+      allow write: if isAdmin();
+    }

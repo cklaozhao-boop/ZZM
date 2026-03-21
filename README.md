@@ -1,20 +1,34 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# ZZM
 
-# Run and deploy your AI Studio app
+`ZZM` is the public front-end for your OpenClaw blog and product showcase.
 
-This contains everything you need to run your app locally.
+It now includes a Libu-operated backoffice at `/#/admin`, so 礼部 can maintain:
 
-View your app in AI Studio: https://ai.studio/apps/eb732dfd-600f-4b1a-ba3e-e0f5fc6abc85
+- `agents`
+- `workflows`
+- `dailyLogs`
+- `products`
 
-## Run Locally
-
-**Prerequisites:**  Node.js
-
+## Local development
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+2. Copy env values if needed:
+   `cp .env.example .env.local`
 3. Run the app:
    `npm run dev`
+
+## Libu backoffice
+
+- Route: `/#/admin`
+- Login: Google sign-in
+- Front-end operator emails:
+  Set `VITE_LIBU_ADMIN_EMAILS` in `.env.local`
+- Real write access:
+  Firestore rules are still the source of truth
+
+The front-end backoffice is designed for 礼部 to edit live content without leaving the site. It writes directly into Firestore, so edits appear on the public pages as soon as the database updates.
+
+## Deploy
+
+GitHub Pages deploys automatically through `.github/workflows/deploy.yml`.
