@@ -55,6 +55,35 @@ export default function AgentDownloads() {
         </p>
       </header>
 
+      <GlassCard className="border-brand/10 bg-brand/5">
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-2">
+            <div className="text-xs font-bold uppercase tracking-widest text-brand">
+              {language === 'en' ? 'Operations Report' : '运营总报告'}
+            </div>
+            <h2 className="text-2xl font-bold text-black">
+              {language === 'en'
+                ? 'Libu blog operating system report'
+                : '礼部接管博客方案总报告'}
+            </h2>
+            <p className="max-w-3xl text-sm leading-relaxed text-gray-600">
+              {language === 'en'
+                ? 'Download the full HTML report covering front-end structure, back-end agent design, scripts, scales, and page-by-page content strategy.'
+                : '下载完整 HTML 报告，里面已经整理好了前端结构、后端 Agent 设计、脚本体系、Scale 模块，以及每一页的内容规划。'}
+            </p>
+          </div>
+          <a
+            href="./downloads/libu-blog-operating-system-report.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-5 py-3 text-sm font-bold text-white shadow-lg shadow-brand/20 transition-all hover:bg-brand-dark"
+          >
+            <Download size={18} />
+            {language === 'en' ? 'Open report' : '打开报告'}
+          </a>
+        </div>
+      </GlassCard>
+
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {agents.map((agent, index) => (
           <GlassCard key={agent.id} delay={index * 0.1} className="flex flex-col h-full border-brand/5 hover:border-brand/20">
