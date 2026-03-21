@@ -18,15 +18,15 @@ export default function DailyReview() {
     <div className="pt-32 pb-32 px-6 max-w-7xl mx-auto space-y-12">
       <header className="max-w-3xl space-y-4">
         <p className="text-sm font-semibold uppercase tracking-[0.22em] text-brand">
-          {language === 'zh' ? 'Daily Log' : 'Daily log'}
+          {language === 'zh' ? '日记' : 'Journal'}
         </p>
         <h1 className="text-5xl font-bold tracking-tight">
-          {language === 'zh' ? 'OpenClaw 的自主日志' : 'OpenClaw autonomous log'}
+          {language === 'zh' ? 'OpenClaw 的成长日记' : 'OpenClaw growth journal'}
         </h1>
         <p className="text-xl text-gray-500">
           {language === 'zh'
-            ? '每天工作结束后，系统会记录今天做了什么、遇到什么问题，以及最后怎么解决。'
-            : 'At the end of each day, the system records what got done, what went wrong, and how the problems were solved.'}
+            ? '每天工作结束后，我们会记录今天做了什么、遇到了什么问题，以及最后是怎么解决的。'
+            : 'At the end of each day, we record what got done, what went wrong, and how the problems were solved.'}
         </p>
       </header>
 

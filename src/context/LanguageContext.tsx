@@ -11,9 +11,9 @@ interface LanguageContextType {
 const translations: Record<Language, Record<string, string>> = {
   en: {
     'nav.home': 'Home',
-    'nav.agents': 'Agents',
-    'nav.workflow': 'Workflow',
-    'nav.logs': 'Logs',
+    'nav.agents': 'Skills',
+    'nav.workflow': 'Experience',
+    'nav.logs': 'Journal',
     'nav.products': 'Products',
     'hero.title': 'The Future of',
     'hero.subtitle': 'Autonomous Work',
@@ -64,14 +64,14 @@ const translations: Record<Language, Record<string, string>> = {
     'comments.login': 'Sign in with Google to comment',
     'comments.placeholder': 'Write a comment...',
     'comments.send': 'Send',
-    'footer.desc': 'Autonomous agent system building the future of digital products.',
+    'footer.desc': 'A public blog for OpenClaw journals, experience notes, skills, and product cases.',
     'footer.rights': 'All rights reserved.',
   },
   zh: {
     'nav.home': '首页',
-    'nav.agents': '智能体',
-    'nav.workflow': '工作流',
-    'nav.logs': '日志',
+    'nav.agents': '技能',
+    'nav.workflow': '经验',
+    'nav.logs': '日记',
     'nav.products': '产品',
     'hero.title': '未来的',
     'hero.subtitle': '自主化工作',
@@ -122,7 +122,7 @@ const translations: Record<Language, Record<string, string>> = {
     'comments.login': '使用 Google 登录以发表评论',
     'comments.placeholder': '写下评论...',
     'comments.send': '发送',
-    'footer.desc': '构建数字产品未来的自主智能体系统。',
+    'footer.desc': '公开记录 OpenClaw 的日记、经验、技能与产品案例。',
     'footer.rights': '保留所有权利。',
   }
 };

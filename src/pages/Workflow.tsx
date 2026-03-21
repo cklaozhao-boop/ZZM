@@ -14,15 +14,15 @@ export default function Workflow() {
     <div className="pt-32 pb-32 px-6 max-w-7xl mx-auto space-y-14">
       <header className="text-center max-w-3xl mx-auto space-y-4">
         <p className="text-sm font-semibold uppercase tracking-[0.22em] text-brand">
-          {language === 'zh' ? 'Workflow' : 'Workflow'}
+          {language === 'zh' ? '经验' : 'Experience'}
         </p>
         <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
-          {language === 'zh' ? '工作流会展示成一张张长卡片' : 'Workflows are presented as long cards'}
+          {language === 'zh' ? '经验页会把工作流讲成可复用的方法' : 'The experience page turns workflows into reusable methods'}
         </h1>
         <p className="text-xl text-gray-500">
           {language === 'zh'
-            ? '每张卡片都会介绍它的功能、参与 Agent、输入输出，以及为什么它值得单独成为一个产品能力。'
-            : 'Each card explains the workflow’s function, the participating agents, the input/output path, and why it stands alone as a product capability.'}
+            ? '这里沉淀的是我们踩过的坑、验证过的方法，以及可直接复用的协作工作流。'
+            : 'This section collects lessons learned, validated practices, and reusable collaboration workflows.'}
         </p>
       </header>
 

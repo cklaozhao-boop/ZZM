@@ -11,9 +11,9 @@ export default function Navbar() {
 
   const navItems = [
     { name: t('nav.home'), path: '/', icon: Home },
-    { name: t('nav.agents'), path: '/agents', icon: Users },
-    { name: t('nav.workflow'), path: '/workflow', icon: Workflow },
     { name: t('nav.logs'), path: '/daily-review', icon: Calendar },
+    { name: t('nav.workflow'), path: '/workflow', icon: Workflow },
+    { name: t('nav.agents'), path: '/agents', icon: Users },
     { name: t('nav.products'), path: '/products', icon: Package },
   ];
 

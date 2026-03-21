@@ -14,15 +14,15 @@ export default function Agents() {
     <div className="pt-32 pb-32 px-6 max-w-7xl mx-auto space-y-14">
       <header className="text-center space-y-4 max-w-3xl mx-auto">
         <p className="text-sm font-semibold uppercase tracking-[0.22em] text-brand">
-          {language === 'zh' ? 'Agents' : 'Agents'}
+          {language === 'zh' ? '技能' : 'Skills'}
         </p>
         <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
-          {language === 'zh' ? '每个 Agent 都有自己的卡片与详情页' : 'Each agent has a card and a detail page'}
+          {language === 'zh' ? '技能页就是智能体 Agent 的展示页' : 'Skills are presented through detailed agent pages'}
         </h1>
         <p className="text-xl text-gray-500">
           {language === 'zh'
-            ? '这里不是简单列能力，而是把角色职责、配置、scale 和下载入口一起讲清楚。'
-            : 'These cards do more than list skills. They surface role, configuration, scale, and downloadable artifacts together.'}
+            ? '这里的“技能”不是抽象概念，而是一个个可配置、可下载、可复用的智能体。'
+            : 'The “skills” here are not abstract labels. They are configurable, downloadable, reusable agents.'}
         </p>
         <Link
           to="/agents/downloads"
