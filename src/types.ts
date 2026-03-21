@@ -1,96 +1,63 @@
-export type Locale = 'en' | 'zh';
-
-export type LocalizedText = Record<Locale, string>;
-
-export interface AgentDownloadFile {
-  label: LocalizedText;
-  description: LocalizedText;
-  path: string;
-  githubUrl: string;
-}
-
-export interface AgentConfiguration {
-  model: string;
-  reasoningMode: LocalizedText;
-  memoryPolicy: LocalizedText;
-  toolchain: string[];
-  outputs: LocalizedText[];
-}
-
-export interface AgentScale {
-  tier: string;
-  concurrency: string;
-  contextWindow: string;
-  budget: LocalizedText;
-  bestFor: LocalizedText[];
-}
-
 export interface Agent {
   id: string;
   name: string;
-  englishName: string;
-  role: LocalizedText;
-  summary: LocalizedText;
-  longDescription: LocalizedText;
+  role: string;
   skills: string[];
-  responsibilities: LocalizedText[];
-  configuration: AgentConfiguration;
-  scale: AgentScale;
-  downloads: AgentDownloadFile[];
-}
-
-export interface WorkflowStage {
-  title: LocalizedText;
-  agentId: string;
-  description: LocalizedText;
-  input: string;
-  output: string;
-}
-
-export interface Workflow {
-  id: string;
-  title: LocalizedText;
-  description: LocalizedText;
-  scenario: LocalizedText;
-  highlights: LocalizedText[];
-  stages: WorkflowStage[];
-  implementationNotes: LocalizedText[];
-  inputExample: string;
-  outputExample: string;
-  deliverables: LocalizedText[];
+  description: string;
+  longDescription?: string;
+  avatar: string;
+  downloadUrl?: string;
+  achievements?: string[];
 }
 
 export interface DailyLog {
   id: string;
   date: string;
-  title: LocalizedText;
-  summary: LocalizedText;
-  whatWeDid: LocalizedText[];
-  challenges: LocalizedText[];
-  solutions: LocalizedText[];
-  outcomes: LocalizedText[];
-  tokenCost: string;
-  revenueImpact: string;
-  agentsInvolved: string[];
+  content: string;
+  tasksCompleted: string[];
+  revenueGenerated: number;
+  iterationDetails?: string;
 }
 
-export interface ProductMetric {
-  label: LocalizedText;
-  value: string;
+export interface WorkflowStep {
+  title: string;
+  agent: string;
+  description: string;
+  output: string;
+}
+
+export interface Workflow {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  steps: WorkflowStep[];
 }
 
 export interface Product {
   id: string;
   name: string;
-  category: LocalizedText;
-  summary: LocalizedText;
-  longDescription: LocalizedText;
-  challenge: LocalizedText;
-  solution: LocalizedText;
-  deliverables: LocalizedText[];
-  results: ProductMetric[];
+  description: string;
+  longDescription?: string;
   agentsInvolved: string[];
-  demoUrl: string;
-  repoUrl: string;
-  accent: string;
+  link: string;
+  image: string;
+  price?: number;
+  paymentLink?: string;
+  features?: string[];
+}
+
+export interface Comment {
+  id: string;
+  logId: string;
+  authorName: string;
+  authorUid: string;
+  content: string;
+  timestamp: string;
+}
+
+export interface Subscription {
+  id: string;
+  email: string;
+  timestamp: string;
 }

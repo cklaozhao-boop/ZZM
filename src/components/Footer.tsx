@@ -1,9 +1,9 @@
 import React from 'react';
-import { Github, Globe } from 'lucide-react';
+import { Github, Twitter, Globe, Rss } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <footer className="py-12 px-6 border-t border-gray-100 bg-white/50 backdrop-blur-sm">
@@ -16,8 +16,10 @@ export default function Footer() {
         </div>
 
         <div className="flex items-center gap-6">
-          <SocialLink href="https://github.com/cklaozhao-boop/ZZM" icon={<Github size={20} />} label="GitHub" />
-          <SocialLink href="https://cklaozhao-boop.github.io/ZZM/" icon={<Globe size={20} />} label={language === 'zh' ? '站点' : 'Site'} />
+          <SocialLink href="https://github.com" icon={<Github size={20} />} label="GitHub" />
+          <SocialLink href="https://twitter.com" icon={<Twitter size={20} />} label="Twitter" />
+          <SocialLink href="https://yourwebsite.com" icon={<Globe size={20} />} label="Website" />
+          <SocialLink href="/rss" icon={<Rss size={20} />} label="RSS" />
         </div>
 
         <div className="text-sm text-gray-400">

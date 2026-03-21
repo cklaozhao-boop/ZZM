@@ -1,165 +1,133 @@
-import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Boxes, FileOutput, GitBranch, Workflow as WorkflowIcon } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'motion/react';
+import { ArrowLeft, Search, Video, FileText, CheckCircle2, Users, Layers, Zap } from 'lucide-react';
 import GlassCard from '@/src/components/GlassCard';
-import { findWorkflow, getAgentLabel, localize } from '@/src/data/showcase';
+import { db, doc, getDoc } from '@/src/firebase';
+import { Workflow } from '@/src/types';
 import { useLanguage } from '../context/LanguageContext';
+
+const iconMap: Record<string, React.ReactNode> = {
+  'Search': <Search className="text-brand" />,
+  'Video': <Video className="text-brand" />,
+  'FileText': <FileText className="text-brand" />,
+};
 
 export default function WorkflowDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { language } = useLanguage();
-  const workflow = findWorkflow(id);
+  const { t, language } = useLanguage();
+  const [workflow, setWorkflow] = useState<Workflow | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchWorkflow = async () => {
+      if (!id) return;
+      const docRef = doc(db, 'workflows', id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setWorkflow({ id: docSnap.id, ...docSnap.data() } as Workflow);
+      }
+      setLoading(false);
+    };
+    fetchWorkflow();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="pt-32 pb-32 flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-brand/10 border-t-brand rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   if (!workflow) {
     return (
-      <div className="pt-32 pb-32 px-6 text-center">
-        <h2 className="text-3xl font-bold">{language === 'zh' ? '未找到这个工作流' : 'Workflow not found'}</h2>
-        <button onClick={() => navigate('/workflow')} className="mt-6 inline-flex items-center gap-2 text-brand font-semibold">
-          <ArrowLeft size={18} />
-          {language === 'zh' ? '返回工作流列表' : 'Back to workflows'}
+      <div className="pt-32 pb-32 text-center">
+        <h2 className="text-2xl font-bold">Workflow not found</h2>
+        <button onClick={() => navigate('/workflow')} className="mt-4 text-brand flex items-center gap-2 mx-auto">
+          <ArrowLeft size={20} /> Back to Workflows
         </button>
       </div>
     );
   }
 
   return (
-    <div className="pt-32 pb-32 px-6 max-w-7xl mx-auto space-y-10">
-      <button onClick={() => navigate('/workflow')} className="inline-flex items-center gap-2 text-gray-500 hover:text-brand transition-colors">
-        <ArrowLeft size={18} />
-        {language === 'zh' ? '返回工作流列表' : 'Back to workflows'}
+    <div className="pt-32 pb-32 px-6 max-w-5xl mx-auto space-y-12">
+      <button onClick={() => navigate('/workflow')} className="text-gray-500 hover:text-brand flex items-center gap-2 transition-colors">
+        <ArrowLeft size={20} /> {language === 'en' ? 'Back to Workflows' : '返回工作流列表'}
       </button>
 
-      <header className="max-w-4xl space-y-4">
-        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-brand">
-          {language === 'zh' ? 'Workflow Detail' : 'Workflow detail'}
-        </p>
-        <h1 className="text-5xl font-bold tracking-tight">{localize(workflow.title, language)}</h1>
-        <p className="text-xl text-gray-500">{localize(workflow.description, language)}</p>
+      <header className="space-y-6">
+        <div className="flex items-center gap-6">
+          <div className="p-6 bg-brand/5 rounded-3xl border border-brand/10">
+            {iconMap[workflow.icon] || <Zap size={48} className="text-brand" />}
+          </div>
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold text-black">{workflow.title}</h1>
+            <p className="text-xl text-gray-500 mt-2">{workflow.description}</p>
+          </div>
+        </div>
       </header>
 
-      <div className="grid xl:grid-cols-[1.1fr_0.9fr] gap-8 items-start">
-        <GlassCard className="border-brand/10">
-          <div className="flex items-center gap-3">
-            <GitBranch className="text-brand" size={18} />
-            <h2 className="text-2xl font-bold">
-              {language === 'zh' ? '左侧流程图：各个 Agent 如何协调' : 'Left-side flow: how the agents coordinate'}
-            </h2>
-          </div>
-
-          <div className="mt-8 space-y-6">
-            {workflow.stages.map((stage, index) => (
-              <div key={`${workflow.id}-${index}`} className="grid grid-cols-[64px_1fr] gap-5">
-                <div className="relative flex justify-center">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full border-4 border-brand/10 bg-white text-brand font-bold shadow-sm">
-                    {index + 1}
-                  </div>
-                  {index < workflow.stages.length - 1 && (
-                    <div className="absolute top-14 h-[calc(100%+24px)] w-px bg-brand/10" />
-                  )}
+      <div className="grid lg:grid-cols-3 gap-12">
+        <div className="lg:col-span-2 space-y-8">
+          <h2 className="text-2xl font-bold text-black flex items-center gap-3">
+            <Layers className="text-brand" />
+            {language === 'en' ? 'Collaboration Framework' : '协作框架'}
+          </h2>
+          
+          <div className="relative space-y-12">
+            <div className="absolute left-8 top-0 bottom-0 w-px bg-brand/10 -z-10" />
+            {workflow.steps.map((step, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="flex gap-8"
+              >
+                <div className="w-16 h-16 bg-white border-4 border-brand/10 rounded-full shadow-lg flex items-center justify-center shrink-0 z-10">
+                  <span className="text-lg font-bold text-brand">{index + 1}</span>
                 </div>
-                <div className="rounded-3xl border border-gray-100 bg-gray-50 p-5">
-                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                    <div>
-                      <h3 className="text-xl font-semibold">{localize(stage.title, language)}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-gray-500">{localize(stage.description, language)}</p>
-                    </div>
-                    <div className="rounded-2xl bg-white px-4 py-2 text-xs uppercase tracking-[0.2em] text-brand font-semibold border border-brand/10">
-                      {getAgentLabel(stage.agentId, language)}
-                    </div>
+                <GlassCard className="flex-1 space-y-4 border-brand/5 hover:border-brand/20 transition-all">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-bold text-black">{step.title}</h3>
+                    <span className="px-3 py-1 bg-brand/5 rounded-full text-xs font-bold text-brand uppercase tracking-widest">
+                      {step.agent}
+                    </span>
                   </div>
+                  <p className="text-gray-600 leading-relaxed">{step.description}</p>
+                  <div className="pt-4 flex items-center gap-2 text-sm font-medium text-brand">
+                    <CheckCircle2 size={16} />
+                    {language === 'en' ? 'Output' : '产出'}: {step.output}
+                  </div>
+                </GlassCard>
+              </motion.div>
+            ))}
+          </div>
+        </div>
 
-                  <div className="mt-5 grid md:grid-cols-2 gap-3">
-                    <MiniIO label="Input" value={stage.input} />
-                    <MiniIO label="Output" value={stage.output} />
-                  </div>
+        <div className="space-y-8">
+          <h2 className="text-2xl font-bold text-black flex items-center gap-3">
+            <Users className="text-brand" />
+            {language === 'en' ? 'Involved Agents' : '参与智能体'}
+          </h2>
+          <div className="space-y-4">
+            {Array.from(new Set(workflow.steps.map(s => s.agent))).map(agentName => (
+              <GlassCard key={agentName} className="p-4 flex items-center gap-4 border-brand/5">
+                <div className="w-12 h-12 bg-brand/5 rounded-xl flex items-center justify-center font-bold text-brand">
+                  {agentName[0]}
                 </div>
-              </div>
+                <div>
+                  <h4 className="font-bold text-black">{agentName}</h4>
+                  <p className="text-xs text-gray-500 uppercase tracking-widest">Active Participant</p>
+                </div>
+              </GlassCard>
             ))}
           </div>
-        </GlassCard>
-
-        <GlassCard className="border-brand/5 bg-gradient-to-br from-brand/5 to-white">
-          <div className="flex items-center gap-3">
-            <WorkflowIcon className="text-brand" size={18} />
-            <h2 className="text-2xl font-bold">
-              {language === 'zh' ? '这个工作流的作用' : 'Why this workflow exists'}
-            </h2>
-          </div>
-
-          <p className="mt-5 text-gray-600 leading-relaxed">{localize(workflow.scenario, language)}</p>
-
-          <div className="mt-6 grid gap-3">
-            {workflow.highlights.map((item) => (
-              <div key={localize(item, language)} className="rounded-2xl border border-gray-100 bg-white p-4 text-sm text-gray-600">
-                {localize(item, language)}
-              </div>
-            ))}
-          </div>
-        </GlassCard>
+        </div>
       </div>
-
-      <div className="grid lg:grid-cols-[1fr_1fr] gap-8">
-        <GlassCard className="border-brand/5">
-          <div className="flex items-center gap-3">
-            <Boxes className="text-brand" size={18} />
-            <h2 className="text-2xl font-bold">
-              {language === 'zh' ? '详细介绍与实现方式' : 'Detailed explanation and implementation'}
-            </h2>
-          </div>
-
-          <div className="mt-6 grid gap-3">
-            {workflow.implementationNotes.map((note) => (
-              <div key={localize(note, language)} className="rounded-2xl border border-gray-100 bg-gray-50 p-4 text-sm text-gray-600">
-                {localize(note, language)}
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 rounded-2xl border border-brand/10 bg-brand/5 p-5">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-brand">
-              {language === 'zh' ? '最终交付' : 'Final deliverables'}
-            </h3>
-            <ul className="mt-3 grid gap-2 text-sm text-gray-700">
-              {workflow.deliverables.map((item) => (
-                <li key={localize(item, language)}>{localize(item, language)}</li>
-              ))}
-            </ul>
-          </div>
-        </GlassCard>
-
-        <GlassCard className="border-brand/5">
-          <div className="flex items-center gap-3">
-            <FileOutput className="text-brand" size={18} />
-            <h2 className="text-2xl font-bold">
-              {language === 'zh' ? '输入内容与输出成果演示' : 'Input content and output demonstration'}
-            </h2>
-          </div>
-
-          <div className="mt-6 grid gap-5">
-            <CodeBlock title="Input" value={workflow.inputExample} />
-            <CodeBlock title="Output" value={workflow.outputExample} />
-          </div>
-        </GlassCard>
-      </div>
-    </div>
-  );
-}
-
-function MiniIO({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-2xl border border-white bg-white p-4">
-      <div className="text-xs uppercase tracking-[0.2em] text-gray-400 font-semibold">{label}</div>
-      <div className="mt-2 text-sm text-gray-700 break-words">{value}</div>
-    </div>
-  );
-}
-
-function CodeBlock({ title, value }: { title: string; value: string }) {
-  return (
-    <div className="rounded-2xl border border-gray-100 bg-gray-50 p-5">
-      <div className="text-xs uppercase tracking-[0.2em] text-gray-400 font-semibold">{title}</div>
-      <pre className="mt-3 overflow-x-auto whitespace-pre-wrap text-sm leading-relaxed text-gray-700">{value}</pre>
     </div>
   );
 }

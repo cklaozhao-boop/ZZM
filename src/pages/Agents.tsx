@@ -1,120 +1,124 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, Download, Layers, Settings2 } from 'lucide-react';
+import { Users, Code, Palette, Megaphone, Search, ShieldCheck, ArrowRight, Download, FileText, MessageSquare, CheckCircle, Database, ShieldAlert, Server } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import GlassCard from '@/src/components/GlassCard';
-import { agents, localize } from '@/src/data/showcase';
 import { useLanguage } from '../context/LanguageContext';
+import { db, collection, getDocs } from '@/src/firebase';
+import { Agent } from '@/src/types';
+
+const iconMap: Record<string, React.ReactNode> = {
+  'Architect': <ShieldCheck className="text-brand" />,
+  'Builder': <Code className="text-brand" />,
+  'Visionary': <Palette className="text-brand" />,
+  'Growth': <Megaphone className="text-brand" />,
+  'Analyst': <Search className="text-brand" />,
+  'Researcher': <Search className="text-brand" />,
+  'Content Creator': <FileText className="text-brand" />,
+  'Customer Support': <MessageSquare className="text-brand" />,
+  'Quality Assurance': <CheckCircle className="text-brand" />,
+  'Data Scientist': <Database className="text-brand" />,
+  'Security Expert': <ShieldAlert className="text-brand" />,
+  'DevOps Engineer': <Server className="text-brand" />,
+};
 
 export default function Agents() {
-  const { language } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const [agents, setAgents] = useState<Agent[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAgents = async () => {
+      const querySnapshot = await getDocs(collection(db, 'agents'));
+      const agentsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Agent));
+      setAgents(agentsData);
+      setLoading(false);
+    };
+    fetchAgents();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="pt-32 pb-32 flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-brand/10 border-t-brand rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
-    <div className="pt-32 pb-32 px-6 max-w-7xl mx-auto space-y-14">
-      <header className="text-center space-y-4 max-w-3xl mx-auto">
-        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-brand">
-          {language === 'zh' ? '技能' : 'Skills'}
-        </p>
-        <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
-          {language === 'zh' ? '技能页就是智能体 Agent 的展示页' : 'Skills are presented through detailed agent pages'}
-        </h1>
-        <p className="text-xl text-gray-500">
-          {language === 'zh'
-            ? '这里的“技能”不是抽象概念，而是一个个可配置、可下载、可复用的智能体。'
-            : 'The “skills” here are not abstract labels. They are configurable, downloadable, reusable agents.'}
-        </p>
-        <Link
-          to="/agents/downloads"
-          className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-6 py-3 font-semibold text-brand"
+    <div className="pt-32 pb-32 px-6 max-w-7xl mx-auto space-y-20">
+      <header className="text-center space-y-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 bg-brand/5 rounded-full text-sm font-medium text-brand border border-brand/10"
         >
-          <Download size={18} />
-          {language === 'zh' ? '查看全部下载文件' : 'Browse all downloads'}
-        </Link>
+          <Users size={16} />
+          {t('agents.meet')}
+        </motion.div>
+        <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-black">{t('agents.title')}</h1>
+        <p className="text-xl text-gray-500 max-w-2xl mx-auto">
+          {t('agents.desc')}
+        </p>
+        <div className="pt-4">
+          <Link 
+            to="/agents/downloads" 
+            className="inline-flex items-center gap-2 px-6 py-3 bg-brand text-white rounded-full font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand/20"
+          >
+            <Download size={18} />
+            {language === 'en' ? 'Download Agent Configs' : '下载智能体配置'}
+          </Link>
+        </div>
       </header>
 
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {agents.map((agent, index) => (
           <motion.div
             key={agent.id}
-            whileHover={{ y: -6 }}
-            className="cursor-pointer"
+            whileHover={{ y: -5 }}
             onClick={() => navigate(`/agents/${agent.id}`)}
+            className="cursor-pointer group"
           >
-            <GlassCard delay={index * 0.08} className="h-full border-brand/5 transition-all hover:border-brand/20">
-              <div className="flex items-start justify-between gap-6">
-                <div className="space-y-3">
-                  <p className="text-xs uppercase tracking-[0.22em] text-brand font-semibold">
-                    {language === 'zh' ? agent.name : agent.englishName}
-                  </p>
-                  <div>
-                    <h2 className="text-2xl font-bold">{localize(agent.role, language)}</h2>
-                    <p className="mt-3 text-gray-500 leading-relaxed">{localize(agent.summary, language)}</p>
+            <GlassCard delay={index * 0.1} className="flex flex-col h-full border-brand/5 group-hover:border-brand/30 transition-all">
+              <div className="p-4 bg-brand/5 rounded-2xl w-fit mb-6 group-hover:bg-brand/10 transition-colors">
+                {iconMap[agent.name] || <ShieldCheck className="text-brand" />}
+              </div>
+              <div className="space-y-2 mb-6">
+                <h3 className="text-2xl font-bold text-black">{agent.name}</h3>
+                <p className="text-sm font-medium text-brand uppercase tracking-widest">{agent.role}</p>
+              </div>
+              <p className="text-gray-600 leading-relaxed mb-6 flex-1">
+                {agent.description}
+              </p>
+              
+              <div className="space-y-6">
+                {agent.achievements && agent.achievements.length > 0 && (
+                  <div className="p-4 bg-brand/5 rounded-2xl border border-brand/10">
+                    <h4 className="text-[10px] font-bold text-brand uppercase tracking-widest mb-2">
+                      {language === 'en' ? 'Recent Achievement' : '最近成就'}
+                    </h4>
+                    <p className="text-xs text-brand-dark italic">"{agent.achievements[0]}"</p>
                   </div>
-                </div>
-                <div className="rounded-2xl bg-brand/5 px-4 py-2 text-right">
-                  <div className="text-xs uppercase tracking-[0.2em] text-brand font-semibold">
-                    {language === 'zh' ? 'Scale' : 'Scale'}
+                )}
+
+                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <div className="flex flex-wrap gap-2">
+                    {agent.skills.slice(0, 2).map((skill) => (
+                      <span key={skill} className="px-3 py-1 bg-white border border-gray-100 rounded-full text-[10px] font-medium text-gray-600">
+                        {skill}
+                      </span>
+                    ))}
                   </div>
-                  <div className="text-xl font-bold">{agent.scale.tier}</div>
-                </div>
-              </div>
-
-              <div className="mt-8 grid sm:grid-cols-2 gap-4">
-                <InfoStrip
-                  icon={<Settings2 size={16} className="text-brand" />}
-                  label={language === 'zh' ? '配置模型' : 'Model'}
-                  value={agent.configuration.model}
-                />
-                <InfoStrip
-                  icon={<Layers size={16} className="text-brand" />}
-                  label={language === 'zh' ? '并发能力' : 'Concurrency'}
-                  value={agent.scale.concurrency}
-                />
-              </div>
-
-              <div className="mt-8 flex flex-wrap gap-2">
-                {agent.skills.slice(0, 4).map((skill) => (
-                  <span key={skill} className="rounded-full bg-gray-50 px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-100">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-8 flex items-center justify-between border-t border-gray-100 pt-6">
-                <div className="text-sm text-gray-500">
-                  {language === 'zh'
-                    ? `${agent.downloads.length} 个文件可下载`
-                    : `${agent.downloads.length} downloadable files`}
-                </div>
-                <div className="inline-flex items-center gap-1 font-semibold text-brand">
-                  {language === 'zh' ? '进入详情页' : 'Open details'} <ArrowRight size={16} />
+                  <div className="text-brand flex items-center gap-1 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                    {language === 'en' ? 'Details' : '详情'} <ArrowRight size={14} />
+                  </div>
                 </div>
               </div>
             </GlassCard>
           </motion.div>
         ))}
       </div>
-    </div>
-  );
-}
-
-function InfoStrip({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
-      <div className="mb-2 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-gray-400 font-semibold">
-        {icon}
-        {label}
-      </div>
-      <div className="text-sm font-medium text-gray-700">{value}</div>
     </div>
   );
 }
