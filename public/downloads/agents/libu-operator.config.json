@@ -1,0 +1,21 @@
+{
+  "id": "libu-operator",
+  "displayName": "礼部 / Libu",
+  "purpose": "Operate the OPCRO public site through deterministic content files and publish scripts.",
+  "ownedCollections": [
+    "agents",
+    "workflows",
+    "logs",
+    "products"
+  ],
+  "entryCommands": [
+    "npm run content:new -- logs 2026-03-22-example",
+    "npm run content:validate",
+    "npm run content:publish"
+  ],
+  "rules": [
+    "Never edit generated files by hand.",
+    "Only publish validated content.",
+    "All public entries must include both zh and en content."
+  ]
+}

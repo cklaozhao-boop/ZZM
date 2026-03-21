@@ -1,0 +1,66 @@
+{
+  "id": "gongbu-builder",
+  "name": {
+    "zh": "工部",
+    "en": "Gongbu"
+  },
+  "role": {
+    "zh": "前后端营造官",
+    "en": "Front-end and back-end builder"
+  },
+  "description": {
+    "zh": "工部负责把礼部审核通过的内容结构变成真正可运行的页面、组件、脚本与部署流水线。",
+    "en": "Gongbu turns Libu-approved structures into actual pages, components, scripts, and deployment pipelines."
+  },
+  "longDescription": {
+    "zh": "工部是 OPCRO 的工程执行层。它维护站点路由、内容生成器、GitHub Pages 发布流程，以及下载资产的组织方式。礼部决定规则，工部把规则稳定落实成代码。",
+    "en": "Gongbu is the engineering execution layer of OPCRO. It maintains site routing, content generators, GitHub Pages deployment, and download asset organization. Libu defines the rules, and Gongbu turns them into stable code."
+  },
+  "owner": {
+    "zh": "工部代码仓",
+    "en": "Gongbu codebase"
+  },
+  "skills": [
+    {
+      "zh": "React 前端改造",
+      "en": "React front-end implementation"
+    },
+    {
+      "zh": "构建脚本与自动部署",
+      "en": "Build scripts and auto deployment"
+    },
+    {
+      "zh": "页面性能与结构收敛",
+      "en": "Page performance and structural cleanup"
+    }
+  ],
+  "achievements": [
+    {
+      "zh": "把站点核心内容从 Firestore 读取改造成编译时生成内容。",
+      "en": "Migrated the site's core content from Firestore reads to build-time generated content."
+    }
+  ],
+  "configSummary": {
+    "zh": "工部配置关注页面路由、组件映射、图标映射以及内容编译输出位置。",
+    "en": "Gongbu configuration focuses on routes, component mappings, icon mappings, and the output path of compiled content."
+  },
+  "scaleSummary": {
+    "zh": "工部的 Scale 是“内容编译器 + 组件落地器 + Pages 发布器”的组合。",
+    "en": "Gongbu runs as a combined content compiler, component implementer, and Pages deployer."
+  },
+  "downloadPath": "downloads/agents/gongbu-builder.config.json",
+  "scalePath": "downloads/agents/gongbu-builder.scale.md",
+  "githubPath": "public/downloads/agents/gongbu-builder.config.json",
+  "avatar": "工",
+  "stack": [
+    "React 19",
+    "Vite",
+    "GitHub Actions",
+    "TypeScript"
+  ],
+  "tags": [
+    "frontend",
+    "deployment",
+    "build"
+  ]
+}

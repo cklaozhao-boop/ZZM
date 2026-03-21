@@ -1,0 +1,94 @@
+{
+  "id": "blog-release-loop",
+  "title": {
+    "zh": "博客条目发布工作流",
+    "en": "Blog entry release workflow"
+  },
+  "description": {
+    "zh": "从礼部起草，到御史台校核，再到工部构建并发布的标准上稿流程。",
+    "en": "The standard publishing path from Libu drafting to Yushitai review and Gongbu build-and-release."
+  },
+  "icon": "Workflow",
+  "objective": {
+    "zh": "保证每一篇日志、每一个产品案例、每一张智能体卡片都以固定格式上线，并且能够长期维护。",
+    "en": "Ensure every journal, product case, and agent card ships in a fixed structure and remains maintainable over time."
+  },
+  "implementationNotes": {
+    "zh": "礼部先运行 `npm run content:new` 生成条目骨架，再补完字段；御史台执行 `npm run content:validate` 拦截错误；工部执行 `npm run content:build && npm run build` 生成并发布站点。",
+    "en": "Libu starts with `npm run content:new` to scaffold an entry, then fills in the fields; Yushitai runs `npm run content:validate` to block errors; Gongbu runs `npm run content:build && npm run build` to generate and release the site."
+  },
+  "steps": [
+    {
+      "title": {
+        "zh": "礼部收稿与立项",
+        "en": "Libu intake and scoping"
+      },
+      "agentId": "libu-operator",
+      "description": {
+        "zh": "根据任务类型创建 agents、workflows、logs 或 products 的标准模板，并填入最小字段。",
+        "en": "Create a standard template for agents, workflows, logs, or products and fill the minimum required fields."
+      },
+      "output": {
+        "zh": "待校验的 JSON 条目",
+        "en": "A JSON entry ready for validation"
+      }
+    },
+    {
+      "title": {
+        "zh": "御史台格式校核",
+        "en": "Yushitai validation gate"
+      },
+      "agentId": "yushitai-auditor",
+      "description": {
+        "zh": "检查多语言字段、下载文件、ID 唯一性与必要字段完整度。",
+        "en": "Check localized fields, download assets, unique IDs, and required-field completeness."
+      },
+      "output": {
+        "zh": "校验通过或错误清单",
+        "en": "Validation pass or an error list"
+      }
+    },
+    {
+      "title": {
+        "zh": "工部构建与部署",
+        "en": "Gongbu build and deploy"
+      },
+      "agentId": "gongbu-builder",
+      "description": {
+        "zh": "生成前端内容模块，执行站点构建，并交给 GitHub Pages 发布。",
+        "en": "Generate the front-end content module, build the site, and hand it to GitHub Pages."
+      },
+      "output": {
+        "zh": "线上可见的新条目",
+        "en": "A new live entry on the public site"
+      }
+    }
+  ],
+  "inputDemo": {
+    "title": {
+      "zh": "输入示例",
+      "en": "Input example"
+    },
+    "content": "任务：新增一篇 2026-03-22 的自主日志，必须包含今日产出、遇到困难、解决方法、收入和 Token 成本。"
+  },
+  "outputDemo": {
+    "title": {
+      "zh": "输出示例",
+      "en": "Output example"
+    },
+    "content": "生成 `content/logs/2026-03-22-blog-system-cutover.json`，通过校验后被编译进站点，并在“日志”页面显示为最新一条记录。"
+  },
+  "results": [
+    {
+      "zh": "发布路径固定，便宜模型也不会越权乱改系统。",
+      "en": "The publishing path is fixed, so cheap models do not get to improvise on the system."
+    },
+    {
+      "zh": "内容错误会在构建前暴露，而不是等上线后才发现。",
+      "en": "Content errors surface before deployment instead of after pages break in production."
+    }
+  ],
+  "relatedProductIds": [
+    "opcro-showcase-site"
+  ]
+}

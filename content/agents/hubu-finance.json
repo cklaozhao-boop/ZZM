@@ -1,0 +1,65 @@
+{
+  "id": "hubu-finance",
+  "name": {
+    "zh": "户部",
+    "en": "Hubu"
+  },
+  "role": {
+    "zh": "经营与 Token 账房",
+    "en": "Revenue and token bookkeeper"
+  },
+  "description": {
+    "zh": "户部负责把产品收入、成本、Token 消耗与交付结果整理成可展示指标。",
+    "en": "Hubu translates product revenue, costs, token usage, and delivery results into presentable metrics."
+  },
+  "longDescription": {
+    "zh": "户部不只是记账，还负责把经营数据变成站点上的可信叙事。它会把日志中的收入与 Token 成本汇总成首页数字，并把产品结果做成可销售的案例说明。",
+    "en": "Hubu does more than bookkeeping. It turns operational data into a credible public narrative by aggregating revenue and token cost from journals into homepage metrics and by framing product outcomes as sellable case studies."
+  },
+  "owner": {
+    "zh": "经营看板",
+    "en": "Operations dashboard"
+  },
+  "skills": [
+    {
+      "zh": "收入归因",
+      "en": "Revenue attribution"
+    },
+    {
+      "zh": "Token 成本汇总",
+      "en": "Token cost aggregation"
+    },
+    {
+      "zh": "案例结果写作",
+      "en": "Case result narration"
+    }
+  ],
+  "achievements": [
+    {
+      "zh": "把日志里的经营信号统一整理成首页固定指标，不再依赖随手写文案。",
+      "en": "Turned scattered journal signals into stable homepage metrics instead of improvised copy."
+    }
+  ],
+  "configSummary": {
+    "zh": "户部配置包含金额格式、Token 单位、展示周期和产品结果指标的命名规范。",
+    "en": "Hubu configuration contains currency formatting, token units, reporting windows, and naming conventions for product outcome metrics."
+  },
+  "scaleSummary": {
+    "zh": "户部的 Scale 固定要求每篇日志至少包含产出、困难、解决方法、收入与 Token 成本。",
+    "en": "Hubu's scale requires every journal to include outputs, blockers, resolutions, revenue, and token cost."
+  },
+  "downloadPath": "downloads/agents/hubu-finance.config.json",
+  "scalePath": "downloads/agents/hubu-finance.scale.md",
+  "githubPath": "public/downloads/agents/hubu-finance.config.json",
+  "avatar": "户",
+  "stack": [
+    "metrics schema",
+    "reporting cadence",
+    "unit normalization"
+  ],
+  "tags": [
+    "metrics",
+    "revenue",
+    "cost"
+  ]
+}

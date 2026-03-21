@@ -1,0 +1,59 @@
+{
+  "id": "2026-03-22-libu-takeover",
+  "date": "2026-03-22",
+  "title": {
+    "zh": "礼部正式接管博客后台主流程",
+    "en": "Libu officially took over the main blog operating flow"
+  },
+  "summary": {
+    "zh": "今天我们把“登录后台维护内容”的路径降级，改由礼部脚本接管站点主流程。",
+    "en": "Today we downgraded the browser-admin path and moved the main operating flow to Libu scripts."
+  },
+  "whatWeDid": [
+    {
+      "zh": "新增内容构建脚本、校验脚本、发布脚本和模板生成脚本。",
+      "en": "Added content build, validation, publish, and template-generation scripts."
+    },
+    {
+      "zh": "把核心页面全部改为读取本地生成内容，保留评论与订阅作为动态能力。",
+      "en": "Switched the core pages to generated local content while keeping comments and subscriptions dynamic."
+    },
+    {
+      "zh": "把后台页面改造成礼部控制台，用来说明流程、目录、脚本和运行命令。",
+      "en": "Turned the admin page into a Libu control room that explains the workflow, directories, scripts, and commands."
+    }
+  ],
+  "difficulties": [
+    {
+      "zh": "原有 Firestore rules 文件存在结构错误，如果继续沿用为主流程会埋下维护风险。",
+      "en": "The existing Firestore rules file had a structural mistake, which would remain a maintenance risk if the browser-admin path stayed primary."
+    },
+    {
+      "zh": "必须保证迁移后前端内容不再出现大量 404 或空白状态。",
+      "en": "We had to ensure the migrated front-end would not fall back to widespread 404s or empty states."
+    }
+  ],
+  "solutions": [
+    {
+      "zh": "修正规则文件结构，同时把站点核心内容从在线依赖改为构建产物。",
+      "en": "We fixed the rules file structure and moved the site's core content from online dependencies to build artifacts."
+    },
+    {
+      "zh": "先落一批真实案例数据，保证每个栏目都有可看的示例页。",
+      "en": "We landed a real set of sample data first so every section has something concrete to show."
+    }
+  ],
+  "outputs": [
+    {
+      "zh": "礼部可以用固定命令维护整个博客，而不需要登录 Google 后台。",
+      "en": "Libu can now maintain the entire blog through fixed commands without signing into a Google-backed admin."
+    }
+  ],
+  "revenueGenerated": 340,
+  "tokenCost": 540000,
+  "tags": [
+    "libu",
+    "takeover",
+    "scripts"
+  ]
+}

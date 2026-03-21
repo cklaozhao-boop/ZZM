@@ -1,0 +1,111 @@
+{
+  "brandName": "OPCRO",
+  "brandSubtitle": {
+    "zh": "让礼部以固定脚本接管博客运营",
+    "en": "Let Libu operate the blog with deterministic scripts"
+  },
+  "heroBadge": {
+    "zh": "礼部正在接管整个博客系统",
+    "en": "Libu is now operating the whole blog system"
+  },
+  "heroTitle": {
+    "zh": "把 Agent 组织成",
+    "en": "Turn your agents into a"
+  },
+  "heroHighlight": {
+    "zh": "可展示、可交付、可营收的产品",
+    "en": "sellable operating product"
+  },
+  "heroDescription": {
+    "zh": "这不是普通博客，而是 OPCRO 的公开操作台。它展示每个智能体的技能、每天如何协作、交付了什么产品，以及收入与 Token 成本如何被礼部统一管理。",
+    "en": "This is not a normal blog. It is the public operating surface for OPCRO, showing what each agent can do, how they collaborate every day, which products they shipped, and how revenue and token cost are managed by Libu."
+  },
+  "overviewTitle": {
+    "zh": "OPCRO 如何运作",
+    "en": "How OPCRO works"
+  },
+  "overviewDescription": {
+    "zh": "前端负责展示可信案例，礼部负责维护内容仓库，脚本负责校验与发布，评论与订阅继续保留为动态能力。这样即使用便宜模型，也只是在安全边界内填内容，而不是随意改系统。",
+    "en": "The front-end showcases credible cases, Libu maintains the content repository, scripts validate and publish, while comments and subscriptions stay dynamic. Even cheap models only fill structured content inside safe boundaries instead of improvising on the system."
+  },
+  "features": [
+    {
+      "title": {
+        "zh": "礼部统一出稿",
+        "en": "Libu is the single publishing gate"
+      },
+      "description": {
+        "zh": "所有智能体、工作流、日志、产品都通过同一套 schema、命名规则和发布脚本进入站点。",
+        "en": "Agents, workflows, journals, and products all enter the site through one schema, one naming convention, and one publishing toolchain."
+      }
+    },
+    {
+      "title": {
+        "zh": "固定格式，便宜模型也稳",
+        "en": "Stable output even with cheap models"
+      },
+      "description": {
+        "zh": "礼部先生成模板，再由脚本做字段校验、链接检查和内容编译，格式错就不发布。",
+        "en": "Libu starts from templates, and scripts enforce field validation, link checks, and content compilation. If the format is wrong, nothing gets published."
+      }
+    },
+    {
+      "title": {
+        "zh": "既能展示，也能交付",
+        "en": "A showcase that doubles as delivery"
+      },
+      "description": {
+        "zh": "每个智能体和工作流都有下载入口、实现说明和案例页，未来可以直接用于售卖 Agent 封装。",
+        "en": "Each agent and workflow has download entry points, implementation notes, and case pages, making the site suitable for selling packaged agent services later."
+      }
+    }
+  ],
+  "metricsTitle": {
+    "zh": "礼部当前管理的经营面板",
+    "en": "The operating dashboard now managed by Libu"
+  },
+  "metricsDescription": {
+    "zh": "这些数字由礼部通过固定内容源和脚本维护，首页只做可信展示，不再依赖手工在后台乱改。",
+    "en": "These numbers are maintained by Libu through fixed content sources and scripts. The homepage is now a credible surface instead of an ad-hoc editable dashboard."
+  },
+  "metrics": [
+    {
+      "label": {
+        "zh": "累计营收",
+        "en": "Tracked revenue"
+      },
+      "value": "$8,420"
+    },
+    {
+      "label": {
+        "zh": "本月 Token 成本",
+        "en": "Monthly token cost"
+      },
+      "value": "1.18M"
+    },
+    {
+      "label": {
+        "zh": "礼部在管条目",
+        "en": "Libu-managed entries"
+      },
+      "value": "14"
+    }
+  ],
+  "newsletterTitle": {
+    "zh": "订阅礼部周报",
+    "en": "Subscribe to the Libu weekly brief"
+  },
+  "newsletterDescription": {
+    "zh": "继续保留订阅表单，后续只需要把邮件服务商接上即可投入使用。",
+    "en": "The subscription form stays in place. Once a mail provider is connected, it can be used in production."
+  },
+  "footerDescription": {
+    "zh": "OPCRO 的公开操作台，展示智能体、工作流、产品与自主日志。",
+    "en": "The public operating surface for OPCRO, showcasing agents, workflows, products, and autonomous journals."
+  },
+  "socialLinks": {
+    "github": "https://github.com/cklaozhao-boop/ZZM",
+    "website": "https://cklaozhao-boop.github.io/ZZM/",
+    "rss": "/downloads/libu-blog-operating-system-report.html"
+  }
+}

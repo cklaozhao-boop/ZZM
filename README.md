@@ -1,8 +1,8 @@
 # ZZM
 
-`ZZM` is the public front-end for your OpenClaw blog and product showcase.
+`ZZM` is the public front-end for your OPCRO blog and product showcase.
 
-It now includes a Libu-operated backoffice at `/#/admin`, so 礼部 can maintain:
+The core content surface is now operated by 礼部 through a file-based workflow:
 
 - `agents`
 - `workflows`
@@ -18,16 +18,29 @@ It now includes a Libu-operated backoffice at `/#/admin`, so 礼部 can maintain
 3. Run the app:
    `npm run dev`
 
-## Libu backoffice
+## Libu operating flow
 
-- Route: `/#/admin`
-- Login: Google sign-in
-- Front-end operator emails:
-  Set `VITE_LIBU_ADMIN_EMAILS` in `.env.local`
-- Real write access:
-  Firestore rules are still the source of truth
+1. Create or edit content under `content/`
+2. Validate content:
+   `npm run content:validate`
+3. Generate the front-end content module:
+   `npm run content:publish`
+4. Build the site:
+   `npm run build`
+5. Commit and push to GitHub Pages
 
-The front-end backoffice is designed for 礼部 to edit live content without leaving the site. It writes directly into Firestore, so edits appear on the public pages as soon as the database updates.
+Helpful commands:
+
+- `npm run content:new -- agents <slug>`
+- `npm run content:new -- workflows <slug>`
+- `npm run content:new -- logs <slug>`
+- `npm run content:new -- products <slug>`
+
+The route `/#/admin` is now a Libu control room that documents this workflow. It is no longer the primary write surface.
+
+## Dynamic capabilities
+
+Comments and subscriptions still use Firebase. That lets the core showcase stay deterministic while keeping a few interactive features dynamic.
 
 ## Deploy
 

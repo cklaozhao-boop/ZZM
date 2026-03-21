@@ -5,9 +5,11 @@ import { ArrowRight, Cpu, Package, ShieldCheck, TrendingUp, Workflow, Zap } from
 import GlassCard from '@/src/components/GlassCard';
 import SubscriptionForm from '@/src/components/SubscriptionForm';
 import { useLanguage } from '../context/LanguageContext';
+import { allAgents, allDailyLogs, allProducts, allWorkflows, localize, site } from '../lib/content';
 
 export default function Home() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const latestLog = allDailyLogs[0];
 
   return (
     <div className="space-y-32 pb-32">
@@ -25,18 +27,18 @@ export default function Home() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
             </span>
-            {t('hero.status')}
+            {localize(site.heroBadge, language)}
           </div>
 
           <h1 className="text-6xl font-bold leading-[1.1] tracking-tight text-black md:text-8xl">
-            {t('hero.title')} <br />
+            {localize(site.heroTitle, language)} <br />
             <span className="bg-gradient-to-r from-brand to-brand-dark bg-clip-text text-transparent">
-              {t('hero.subtitle')}
+              {localize(site.heroHighlight, language)}
             </span>
           </h1>
 
-          <p className="mx-auto max-w-2xl text-xl font-light leading-relaxed text-gray-500 md:text-2xl">
-            {t('hero.description')}
+          <p className="mx-auto max-w-3xl text-xl font-light leading-relaxed text-gray-500 md:text-2xl">
+            {localize(site.heroDescription, language)}
           </p>
 
           <div className="flex flex-col items-center justify-center gap-4 pt-8 sm:flex-row">
@@ -60,26 +62,26 @@ export default function Home() {
       <section className="mx-auto max-w-7xl px-6">
         <div className="grid items-center gap-12 md:grid-cols-2">
           <div className="space-y-8">
-            <h2 className="text-4xl font-bold tracking-tight text-black">{t('home.howItWorks')}</h2>
+            <h2 className="text-4xl font-bold tracking-tight text-black">{localize(site.overviewTitle, language)}</h2>
             <p className="text-lg leading-relaxed text-gray-600">
-              {t('home.howItWorks.desc')}
+              {localize(site.overviewDescription, language)}
             </p>
 
             <div className="space-y-6">
               <FeatureItem
                 icon={<Cpu className="text-brand" />}
-                title={t('home.feature.ai')}
-                description={t('home.feature.ai.desc')}
+                title={localize(site.features[0].title, language)}
+                description={localize(site.features[0].description, language)}
               />
               <FeatureItem
                 icon={<Workflow className="text-brand" />}
-                title={t('home.feature.collab')}
-                description={t('home.feature.collab.desc')}
+                title={localize(site.features[1].title, language)}
+                description={localize(site.features[1].description, language)}
               />
               <FeatureItem
                 icon={<ShieldCheck className="text-brand" />}
-                title={t('home.feature.iter')}
-                description={t('home.feature.iter.desc')}
+                title={localize(site.features[2].title, language)}
+                description={localize(site.features[2].description, language)}
               />
             </div>
           </div>
@@ -96,8 +98,12 @@ export default function Home() {
                 transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
                 className="absolute h-48 w-48 rounded-full border-2 border-dashed border-brand/10"
               />
-              <div className="z-10 rounded-3xl border border-white/50 bg-white p-8 shadow-2xl">
-                <Cpu size={64} className="text-brand" />
+              <div className="z-10 space-y-3 rounded-3xl border border-white/50 bg-white p-8 text-center shadow-2xl">
+                <Cpu size={52} className="mx-auto text-brand" />
+                <div className="text-2xl font-bold text-black">{site.brandName}</div>
+                <div className="max-w-[220px] text-sm leading-relaxed text-gray-500">
+                  {localize(site.brandSubtitle, language)}
+                </div>
               </div>
             </div>
           </GlassCard>
@@ -107,25 +113,70 @@ export default function Home() {
       <section className="mx-6 rounded-[4rem] bg-brand px-6 py-24 text-white shadow-2xl shadow-brand/20">
         <div className="mx-auto max-w-7xl space-y-16 text-center">
           <div className="space-y-4">
-            <h2 className="text-4xl font-bold tracking-tight md:text-5xl">{t('home.revenue.title')}</h2>
+            <h2 className="text-4xl font-bold tracking-tight md:text-5xl">{localize(site.metricsTitle, language)}</h2>
             <p className="mx-auto max-w-2xl text-lg text-brand-light">
-              {t('home.revenue.desc')}
+              {localize(site.metricsDescription, language)}
             </p>
           </div>
 
           <div className="grid gap-8 md:grid-cols-3">
-            <StatCard icon={<TrendingUp className="text-white" />} value="$12,450" label={t('home.stat.revenue')} />
-            <StatCard icon={<Zap className="text-white" />} value="24/7" label={t('home.stat.ops')} />
-            <StatCard icon={<Package className="text-white" />} value="18" label={t('home.stat.launches')} />
+            {site.metrics.map((metric, index) => (
+              <div key={metric.value}>
+                <StatCard
+                  icon={index === 0 ? <TrendingUp className="text-white" /> : index === 1 ? <Zap className="text-white" /> : <Package className="text-white" />}
+                  value={metric.value}
+                  label={localize(metric.label, language)}
+                />
+              </div>
+            ))}
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl space-y-8 px-6">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <div className="text-xs font-bold uppercase tracking-[0.24em] text-brand">
+              {language === 'en' ? 'Current surface' : '当前看板'}
+            </div>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-black">
+              {language === 'en' ? 'Visitors can immediately inspect the whole operating system' : '访客现在可以直接查看整套运营系统'}
+            </h2>
+          </div>
+          {latestLog && (
+            <Link to="/daily-review" className="text-sm font-medium text-brand transition-colors hover:text-brand-dark">
+              {language === 'en' ? 'Latest journal' : '最新日志'}: {localize(latestLog.title, language)}
+            </Link>
+          )}
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          <PreviewCard
+            title={language === 'en' ? 'Agents' : '智能体'}
+            value={String(allAgents.length)}
+            description={language === 'en' ? 'Each one includes config, scale, and delivery notes.' : '每个条目都带有配置、Scale 和交付说明。'}
+            href="/agents"
+          />
+          <PreviewCard
+            title={language === 'en' ? 'Workflows' : '工作流'}
+            value={String(allWorkflows.length)}
+            description={language === 'en' ? 'Detailed collaboration flows with input/output demos.' : '每个流程都有协作图、输入输出演示和实现说明。'}
+            href="/workflow"
+          />
+          <PreviewCard
+            title={language === 'en' ? 'Products' : '产品'}
+            value={String(allProducts.length)}
+            description={language === 'en' ? 'Real deliverables framed as sellable cases.' : '真实交付物被整理成可销售的案例页。'}
+            href="/products"
+          />
         </div>
       </section>
 
       <section className="mx-auto max-w-4xl space-y-12 px-6 text-center">
         <div className="space-y-4">
-          <h2 className="text-4xl font-bold tracking-tight text-black">{t('home.newsletter.title')}</h2>
+          <h2 className="text-4xl font-bold tracking-tight text-black">{localize(site.newsletterTitle, language)}</h2>
           <p className="text-lg text-gray-500">
-            {t('home.newsletter.desc')}
+            {localize(site.newsletterDescription, language)}
           </p>
         </div>
         <SubscriptionForm />
@@ -155,5 +206,19 @@ function StatCard({ icon, value, label }: { icon: React.ReactNode; value: string
       <div className="text-4xl font-bold">{value}</div>
       <div className="text-xs font-medium uppercase tracking-widest text-brand-light">{label}</div>
     </div>
+  );
+}
+
+function PreviewCard({ title, value, description, href }: { title: string; value: string; description: string; href: string }) {
+  return (
+    <GlassCard className="space-y-4 border-brand/5">
+      <div className="text-xs font-bold uppercase tracking-[0.24em] text-brand">{title}</div>
+      <div className="text-4xl font-bold text-black">{value}</div>
+      <p className="text-sm leading-relaxed text-gray-500">{description}</p>
+      <Link to={href} className="inline-flex items-center gap-2 text-sm font-medium text-brand transition-colors hover:text-brand-dark">
+        Explore
+        <ArrowRight size={16} />
+      </Link>
+    </GlassCard>
   );
 }

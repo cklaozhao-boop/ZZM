@@ -5,10 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
-    "build": "vite build",
+    "build": "npm run content:build && vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "lint": "npm run content:build && tsc --noEmit",
+    "content:new": "node scripts/libu/new-entry.mjs",
+    "content:validate": "node scripts/libu/validate-content.mjs",
+    "content:build": "node scripts/libu/build-content.mjs",
+    "content:publish": "node scripts/libu/publish-content.mjs"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",

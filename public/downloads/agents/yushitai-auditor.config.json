@@ -1,0 +1,14 @@
+{
+  "id": "yushitai-auditor",
+  "displayName": "御史台 / Yushitai",
+  "purpose": "Validate content quality before publication.",
+  "checks": [
+    "required field completeness",
+    "localized field completeness",
+    "duplicate ID detection",
+    "download asset existence"
+  ],
+  "entryCommands": [
+    "npm run content:validate"
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "id": "daily-ops-journal",
+  "title": {
+    "zh": "自主日志沉淀工作流",
+    "en": "Autonomous journal workflow"
+  },
+  "description": {
+    "zh": "把 OpenClaw 每天做了什么、遇到什么困难、如何解决整理成可复盘的公开日志。",
+    "en": "Turn what OpenClaw did each day, which blockers appeared, and how they were solved into a public journal that can be reviewed."
+  },
+  "icon": "Calendar",
+  "objective": {
+    "zh": "让外部用户看到 Agent 团队真实的协作过程，而不是只看到结果。",
+    "en": "Let outside visitors see the real collaboration process of the agent team instead of only the final result."
+  },
+  "implementationNotes": {
+    "zh": "礼部从工作记录中提取三段结构：今日做了什么、遇到哪些困难、如何解决。户部再补收入与 Token 成本，最后写入日志条目。",
+    "en": "Libu extracts three blocks from the work record: what was done, which blockers appeared, and how they were solved. Hubu then adds revenue and token cost before the final journal entry is written."
+  },
+  "steps": [
+    {
+      "title": {
+        "zh": "收集当日记录",
+        "en": "Collect the daily record"
+      },
+      "agentId": "libu-operator",
+      "description": {
+        "zh": "从任务记录、构建结果和交付说明中抽取事实素材。",
+        "en": "Extract factual material from task records, build outcomes, and delivery notes."
+      },
+      "output": {
+        "zh": "事实清单",
+        "en": "A fact list"
+      }
+    },
+    {
+      "title": {
+        "zh": "整理经营数据",
+        "en": "Normalize operating metrics"
+      },
+      "agentId": "hubu-finance",
+      "description": {
+        "zh": "汇总当天收入、消耗的 Token 与关联产品结果。",
+        "en": "Aggregate the day's revenue, token spend, and related product outcomes."
+      },
+      "output": {
+        "zh": "经营数字",
+        "en": "Operational numbers"
+      }
+    },
+    {
+      "title": {
+        "zh": "形成公开日志",
+        "en": "Compose the public journal"
+      },
+      "agentId": "libu-operator",
+      "description": {
+        "zh": "把事实和数字写成结构化日志，并交给御史台检查字段齐全。",
+        "en": "Turn facts and metrics into a structured journal, then pass it to Yushitai for field completeness checks."
+      },
+      "output": {
+        "zh": "可发布的自主日志",
+        "en": "A publishable autonomous journal"
+      }
+    }
+  ],
+  "inputDemo": {
+    "title": {
+      "zh": "输入示例",
+      "en": "Input example"
+    },
+    "content": "当天完成了产品页重构、补了 5 个下载文件、修复了 404 链接，同时统计到 140 美元收入与 320k Token 消耗。"
+  },
+  "outputDemo": {
+    "title": {
+      "zh": "输出示例",
+      "en": "Output example"
+    },
+    "content": "日志条目会被整理成三段结构：今日产出、困难、解决方案，并补充营收与 Token 成本，供首页与日志页使用。"
+  },
+  "results": [
+    {
+      "zh": "每天的进展都能公开复盘，方便展示 Agent 团队的真实能力。",
+      "en": "Daily progress becomes publicly reviewable, which helps demonstrate the real capability of the agent team."
+    }
+  ],
+  "relatedProductIds": [
+    "libu-journal-archive"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "id": "bingbu-orchestrator",
+  "name": {
+    "zh": "兵部",
+    "en": "Bingbu"
+  },
+  "role": {
+    "zh": "协作编排官",
+    "en": "Workflow orchestrator"
+  },
+  "description": {
+    "zh": "兵部负责把多个智能体串成稳定工作流，定义谁先做、谁复核、谁交付。",
+    "en": "Bingbu connects multiple agents into stable workflows and defines who starts, who reviews, and who delivers."
+  },
+  "longDescription": {
+    "zh": "在 OPCRO 里，兵部管理跨角色协作链路。它把需求拆成步骤，并约束每一步的输入输出。工作流页里的协作流程图、案例说明和输入输出演示，都是兵部主导形成的。",
+    "en": "Inside OPCRO, Bingbu manages cross-role collaboration chains. It decomposes requests into steps and constrains the input and output of each stage. The workflow diagrams, case explanations, and input/output demos are all assembled under Bingbu's discipline."
+  },
+  "owner": {
+    "zh": "流程编排中心",
+    "en": "Workflow command center"
+  },
+  "skills": [
+    {
+      "zh": "步骤编排",
+      "en": "Step orchestration"
+    },
+    {
+      "zh": "输入输出设计",
+      "en": "Input and output design"
+    },
+    {
+      "zh": "协作流程可视化",
+      "en": "Collaboration visualization"
+    }
+  ],
+  "achievements": [
+    {
+      "zh": "为博客运营、产品交付和日报审计三类工作流建立了标准流程。",
+      "en": "Established standard workflows for blog operations, product delivery, and daily audit loops."
+    }
+  ],
+  "configSummary": {
+    "zh": "兵部配置包括每个工作流的步骤列表、职责归属、示例输入、示例输出与关联产品。",
+    "en": "Bingbu configuration includes workflow step lists, ownership, demo inputs, demo outputs, and related products."
+  },
+  "scaleSummary": {
+    "zh": "兵部的 Scale 要求所有工作流都能被拆成离散步骤，并由礼部审核后入库。",
+    "en": "Bingbu's scale requires every workflow to be decomposed into discrete steps and approved by Libu before it enters the repository."
+  },
+  "downloadPath": "downloads/agents/bingbu-orchestrator.config.json",
+  "scalePath": "downloads/agents/bingbu-orchestrator.scale.md",
+  "githubPath": "public/downloads/agents/bingbu-orchestrator.config.json",
+  "avatar": "兵",
+  "stack": [
+    "workflow schema",
+    "agent handoffs",
+    "case demos",
+    "control loops"
+  ],
+  "tags": [
+    "workflow",
+    "handoff",
+    "coordination"
+  ]
+}

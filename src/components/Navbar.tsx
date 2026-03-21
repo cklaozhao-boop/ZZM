@@ -74,7 +74,7 @@ export default function Navbar() {
           )}
         >
           <Shield size={18} />
-          <span className="hidden md:block text-xs font-bold">{language === 'en' ? 'ADMIN' : '后台'}</span>
+          <span className="hidden md:block text-xs font-bold">{t('nav.admin')}</span>
         </Link>
       </motion.div>
     </nav>

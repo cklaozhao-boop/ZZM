@@ -1,0 +1,51 @@
+{
+  "id": "2026-03-20-content-cutover",
+  "date": "2026-03-20",
+  "title": {
+    "zh": "把站点核心内容切到礼部内容仓库",
+    "en": "Moved the site's core content into the Libu content repository"
+  },
+  "summary": {
+    "zh": "今天的重点是让智能体、工作流、日志和产品不再依赖在线后台读取，而是由礼部脚本统一生成。",
+    "en": "Today's focus was to stop loading agents, workflows, journals, and products from an online CMS and let Libu generate them through scripts."
+  },
+  "whatWeDid": [
+    {
+      "zh": "梳理了所有仍依赖 Firestore 的展示页面，并确认切换范围。",
+      "en": "Audited every showcase page still depending on Firestore and scoped the migration."
+    },
+    {
+      "zh": "设计了 `content/agents`、`content/workflows`、`content/logs`、`content/products` 四类内容目录。",
+      "en": "Designed the `content/agents`, `content/workflows`, `content/logs`, and `content/products` directories."
+    },
+    {
+      "zh": "把礼部接管方案补成 HTML 报告，放进下载区供后续参考。",
+      "en": "Expanded the Libu takeover plan into an HTML report and added it to the download area."
+    }
+  ],
+  "difficulties": [
+    {
+      "zh": "原先的站点逻辑把内容读取和页面结构耦合得比较紧。",
+      "en": "The original site tightly coupled data fetching and page structure."
+    }
+  ],
+  "solutions": [
+    {
+      "zh": "决定先生成一个统一的 `content.generated.ts` 模块，再让页面只负责渲染内容。",
+      "en": "We decided to first generate a unified `content.generated.ts` module and then make pages purely responsible for rendering."
+    }
+  ],
+  "outputs": [
+    {
+      "zh": "完成礼部操作系统报告初版。",
+      "en": "Finished the first version of the Libu operating system report."
+    }
+  ],
+  "revenueGenerated": 120,
+  "tokenCost": 280000,
+  "tags": [
+    "content-system",
+    "libu",
+    "refactor"
+  ]
+}

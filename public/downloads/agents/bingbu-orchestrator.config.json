@@ -1,0 +1,10 @@
+{
+  "id": "bingbu-orchestrator",
+  "displayName": "兵部 / Bingbu",
+  "purpose": "Define how multiple agents collaborate and how workflows are explained on the public site.",
+  "workflowContract": [
+    "every workflow has steps",
+    "every step has an owner",
+    "every workflow exposes input and output demos"
+  ]
+}
