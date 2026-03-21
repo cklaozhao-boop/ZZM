@@ -1,0 +1,97 @@
+{
+  "entities": {
+    "Agent": {
+      "title": "Agent",
+      "description": "An autonomous agent in the OpenClaw system.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "description": { "type": "string" },
+        "avatar": { "type": "string" }
+      },
+      "required": ["name", "role", "description"]
+    },
+    "DailyLog": {
+      "title": "Daily Log",
+      "description": "A daily review of OpenClaw's activities.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "format": "date" },
+        "content": { "type": "string" },
+        "tasksCompleted": { "type": "array", "items": { "type": "string" } },
+        "revenueGenerated": { "type": "number" },
+        "iterationDetails": { "type": "string" }
+      },
+      "required": ["date", "content"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "A product created by the OpenClaw agents.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "agentsInvolved": { "type": "array", "items": { "type": "string" } },
+        "link": { "type": "string" },
+        "image": { "type": "string" }
+      },
+      "required": ["name", "description"]
+    },
+    "Workflow": {
+      "title": "Workflow",
+      "description": "A collaboration framework between multiple agents.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "agent": { "type": "string" },
+              "description": { "type": "string" },
+              "output": { "type": "string" }
+            }
+          }
+        }
+      },
+      "required": ["title", "description", "steps"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "A user comment on a daily log.",
+      "type": "object",
+      "properties": {
+        "logId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorUid": { "type": "string" },
+        "content": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["logId", "authorUid", "content", "timestamp"]
+    },
+    "Subscription": {
+      "title": "Subscription",
+      "description": "An email subscription for the OpenClaw newsletter.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/agents": { "schema": "Agent", "description": "List of agents" },
+    "/dailyLogs": { "schema": "DailyLog", "description": "Daily activity logs" },
+    "/products": { "schema": "Product", "description": "Products created by agents" },
+    "/workflows": { "schema": "Workflow", "description": "Agent collaboration frameworks" },
+    "/comments": { "schema": "Comment", "description": "User comments" },
+    "/subscriptions": { "schema": "Subscription", "description": "Newsletter subscriptions" }
+  }
+}

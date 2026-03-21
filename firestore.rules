@@ -1,0 +1,68 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return isAuthenticated() && 
+             request.auth.token.email == "cklaozhao@gmail.com" && 
+             request.auth.token.email_verified == true;
+    }
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.authorUid;
+    }
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+    function isValidStringLength(field, minLen, maxLen) {
+      return request.resource.data[field] is string && 
+             request.resource.data[field].size() >= minLen && 
+             request.resource.data[field].size() <= maxLen;
+    }
+
+    // Agents - Read-only for everyone, write for admin
+    match /agents/{agentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // DailyLogs - Read-only for everyone, write for admin
+    match /dailyLogs/{logId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Products - Read-only for everyone, write for admin
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Workflows - Read-only for everyone, write for admin
+    match /workflows/{workflowId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Comments - Authenticated users can create, owners can delete
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if isAuthenticated() && 
+                    isValidStringLength('content', 1, 500) &&
+                    request.resource.data.authorUid == request.auth.uid;
+      allow update: if false; // No editing comments for now
+      allow delete: if isDocOwner() || isAdmin();
+    }
+
+    // Subscriptions - Anyone can create, no one can read (except admin)
+    match /subscriptions/{subId} {
+      allow create: if isValidEmail(request.resource.data.email);
+      allow read, update, delete: if false;
+    }
+  }
+}
