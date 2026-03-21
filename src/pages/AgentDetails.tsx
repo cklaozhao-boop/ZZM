@@ -1,137 +1,188 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ShieldCheck, Code, Palette, Megaphone, Search, ArrowLeft, Download, Star, Award, FileText, MessageSquare, CheckCircle, Database, ShieldAlert, Server } from 'lucide-react';
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ArrowLeft, Download, ExternalLink, Layers, Settings2, Sparkles } from 'lucide-react';
 import GlassCard from '@/src/components/GlassCard';
-import { db, doc, getDoc } from '@/src/firebase';
-import { Agent } from '@/src/types';
+import { findAgent, localize } from '@/src/data/showcase';
+import { withBase } from '@/src/lib/site';
 import { useLanguage } from '../context/LanguageContext';
-
-const iconMap: Record<string, React.ReactNode> = {
-  'Architect': <ShieldCheck className="text-brand" />,
-  'Builder': <Code className="text-brand" />,
-  'Visionary': <Palette className="text-brand" />,
-  'Growth': <Megaphone className="text-brand" />,
-  'Analyst': <Search className="text-brand" />,
-  'Researcher': <Search className="text-brand" />,
-  'Content Creator': <FileText className="text-brand" />,
-  'Customer Support': <MessageSquare className="text-brand" />,
-  'Quality Assurance': <CheckCircle className="text-brand" />,
-  'Data Scientist': <Database className="text-brand" />,
-  'Security Expert': <ShieldAlert className="text-brand" />,
-  'DevOps Engineer': <Server className="text-brand" />,
-};
 
 export default function AgentDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t, language } = useLanguage();
-  const [agent, setAgent] = useState<Agent | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchAgent = async () => {
-      if (!id) return;
-      const docRef = doc(db, 'agents', id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setAgent({ id: docSnap.id, ...docSnap.data() } as Agent);
-      }
-      setLoading(false);
-    };
-    fetchAgent();
-  }, [id]);
-
-  if (loading) {
-    return (
-      <div className="pt-32 pb-32 flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-brand/10 border-t-brand rounded-full animate-spin" />
-      </div>
-    );
-  }
+  const { language } = useLanguage();
+  const agent = findAgent(id);
 
   if (!agent) {
     return (
-      <div className="pt-32 pb-32 text-center">
-        <h2 className="text-2xl font-bold">Agent not found</h2>
-        <button onClick={() => navigate('/agents')} className="mt-4 text-brand flex items-center gap-2 mx-auto">
-          <ArrowLeft size={20} /> Back to Agents
+      <div className="pt-32 pb-32 px-6 text-center">
+        <h2 className="text-3xl font-bold">{language === 'zh' ? '未找到这个 Agent' : 'Agent not found'}</h2>
+        <button onClick={() => navigate('/agents')} className="mt-6 inline-flex items-center gap-2 text-brand font-semibold">
+          <ArrowLeft size={18} />
+          {language === 'zh' ? '返回 Agent 列表' : 'Back to agents'}
         </button>
       </div>
     );
   }
 
   return (
-    <div className="pt-32 pb-32 px-6 max-w-4xl mx-auto space-y-12">
-      <button onClick={() => navigate('/agents')} className="text-gray-500 hover:text-brand flex items-center gap-2 transition-colors">
-        <ArrowLeft size={20} /> {language === 'en' ? 'Back to Agents' : '返回智能体列表'}
+    <div className="pt-32 pb-32 px-6 max-w-6xl mx-auto space-y-10">
+      <button onClick={() => navigate('/agents')} className="inline-flex items-center gap-2 text-gray-500 hover:text-brand transition-colors">
+        <ArrowLeft size={18} />
+        {language === 'zh' ? '返回 Agent 列表' : 'Back to agents'}
       </button>
 
-      <div className="flex flex-col md:flex-row gap-12 items-start">
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="w-full md:w-1/3"
-        >
-          <GlassCard className="p-8 flex flex-col items-center text-center space-y-6 border-brand/10">
-            <div className="p-6 bg-brand/5 rounded-3xl">
-              {iconMap[agent.name] || <ShieldCheck size={48} className="text-brand" />}
-            </div>
+      <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-8 items-start">
+        <GlassCard className="border-brand/10 bg-gradient-to-br from-brand/5 to-white">
+          <div className="space-y-5">
             <div>
-              <h1 className="text-3xl font-bold text-black">{agent.name}</h1>
-              <p className="text-brand font-medium uppercase tracking-widest text-sm">{agent.role}</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-brand font-semibold">
+                {language === 'zh' ? agent.name : agent.englishName}
+              </p>
+              <h1 className="mt-2 text-4xl font-bold tracking-tight">{localize(agent.role, language)}</h1>
+              <p className="mt-4 text-gray-500 leading-relaxed">{localize(agent.longDescription, language)}</p>
             </div>
-            <div className="flex items-center gap-1 text-yellow-500">
-              {[...Array(5)].map((_, i) => <Star key={i} size={16} fill="currentColor" />)}
+
+            <div className="grid sm:grid-cols-3 gap-4">
+              <Metric label={language === 'zh' ? 'Scale' : 'Scale'} value={agent.scale.tier} />
+              <Metric label={language === 'zh' ? '上下文' : 'Context'} value={agent.scale.contextWindow} />
+              <Metric label={language === 'zh' ? '并发' : 'Concurrency'} value={agent.scale.concurrency} />
             </div>
-            <a 
-              href={agent.downloadUrl} 
-              className="w-full py-3 bg-brand text-white rounded-full font-bold flex items-center justify-center gap-2 hover:bg-brand-dark transition-all shadow-lg shadow-brand/20"
-            >
-              <Download size={18} />
-              {language === 'en' ? 'Download Config' : '下载配置'}
-            </a>
-          </GlassCard>
-        </motion.div>
 
-        <motion.div 
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="flex-1 space-y-8"
-        >
-          <section className="space-y-4">
-            <h2 className="text-2xl font-bold text-black">{language === 'en' ? 'About' : '关于'}</h2>
-            <p className="text-gray-600 leading-relaxed text-lg">
-              {agent.longDescription || agent.description}
-            </p>
-          </section>
-
-          <section className="space-y-4">
-            <h2 className="text-2xl font-bold text-black">{language === 'en' ? 'Core Skills' : '核心技能'}</h2>
-            <div className="flex flex-wrap gap-3">
-              {agent.skills.map((skill) => (
-                <span key={skill} className="px-4 py-2 bg-brand/5 border border-brand/10 rounded-full text-sm font-medium text-brand">
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </section>
-
-          {agent.achievements && agent.achievements.length > 0 && (
-            <section className="space-y-4">
-              <h2 className="text-2xl font-bold text-black">{language === 'en' ? 'Key Achievements' : '主要成就'}</h2>
-              <div className="space-y-4">
-                {agent.achievements.map((achievement, index) => (
-                  <div key={index} className="flex gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100 italic text-gray-600">
-                    <Award className="text-brand shrink-0" size={24} />
-                    <p>{achievement}</p>
-                  </div>
+            <div className="rounded-3xl border border-brand/10 bg-white p-5">
+              <div className="mb-3 text-xs uppercase tracking-[0.22em] text-brand font-semibold">
+                {language === 'zh' ? '核心技能' : 'Core skills'}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {agent.skills.map((skill) => (
+                  <span key={skill} className="rounded-full bg-gray-50 px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-100">
+                    {skill}
+                  </span>
                 ))}
               </div>
-            </section>
-          )}
-        </motion.div>
+            </div>
+          </div>
+        </GlassCard>
+
+        <div className="space-y-6">
+          <GlassCard className="border-brand/5">
+            <SectionTitle icon={<Settings2 size={18} className="text-brand" />} title={language === 'zh' ? '配置详情' : 'Configuration'} />
+            <div className="mt-5 grid sm:grid-cols-2 gap-4">
+              <InfoCard label={language === 'zh' ? '模型' : 'Model'} value={agent.configuration.model} />
+              <InfoCard label={language === 'zh' ? '推理模式' : 'Reasoning'} value={localize(agent.configuration.reasoningMode, language)} />
+              <InfoCard label={language === 'zh' ? '记忆策略' : 'Memory'} value={localize(agent.configuration.memoryPolicy, language)} />
+              <InfoCard label={language === 'zh' ? '主要输出' : 'Primary outputs'} value={localize(agent.configuration.outputs[0], language)} />
+            </div>
+            <div className="mt-5 rounded-2xl border border-gray-100 bg-gray-50 p-4">
+              <div className="mb-2 text-xs uppercase tracking-[0.2em] text-gray-400 font-semibold">
+                {language === 'zh' ? '工具链' : 'Toolchain'}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {agent.configuration.toolchain.map((tool) => (
+                  <span key={tool} className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-gray-600 border border-gray-100">
+                    {tool}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </GlassCard>
+
+          <GlassCard className="border-brand/5">
+            <SectionTitle icon={<Layers size={18} className="text-brand" />} title={language === 'zh' ? 'Scale 与使用档位' : 'Scale and usage band'} />
+            <div className="mt-5 grid gap-4">
+              <InfoCard label={language === 'zh' ? '预算建议' : 'Budget profile'} value={localize(agent.scale.budget, language)} />
+              <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                <div className="mb-3 text-xs uppercase tracking-[0.2em] text-gray-400 font-semibold">
+                  {language === 'zh' ? '最适合的任务' : 'Best-fit use cases'}
+                </div>
+                <ul className="grid gap-2 text-sm text-gray-600">
+                  {agent.scale.bestFor.map((item) => (
+                    <li key={localize(item, language)} className="flex gap-2">
+                      <Sparkles size={16} className="mt-0.5 text-brand shrink-0" />
+                      {localize(item, language)}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </GlassCard>
+        </div>
       </div>
+
+      <div className="grid lg:grid-cols-[1fr_1fr] gap-8">
+        <GlassCard className="border-brand/5">
+          <SectionTitle icon={<Sparkles size={18} className="text-brand" />} title={language === 'zh' ? '这个 Agent 主要负责什么' : 'What this agent is responsible for'} />
+          <ul className="mt-5 grid gap-3">
+            {agent.responsibilities.map((item) => (
+              <li key={localize(item, language)} className="rounded-2xl border border-gray-100 bg-gray-50 p-4 text-sm text-gray-600">
+                {localize(item, language)}
+              </li>
+            ))}
+          </ul>
+        </GlassCard>
+
+        <GlassCard className="border-brand/5">
+          <SectionTitle icon={<Download size={18} className="text-brand" />} title={language === 'zh' ? '配置与 Scale 下载' : 'Config and scale downloads'} />
+          <div className="mt-5 grid gap-4">
+            {agent.downloads.map((file) => (
+              <div key={file.path} className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <h3 className="font-semibold">{localize(file.label, language)}</h3>
+                    <p className="mt-2 text-sm text-gray-500">{localize(file.description, language)}</p>
+                  </div>
+                  <div className="flex gap-2 shrink-0">
+                    <a
+                      href={withBase(file.path)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-white"
+                    >
+                      <Download size={15} />
+                      {language === 'zh' ? '站内下载' : 'Site download'}
+                    </a>
+                    <a
+                      href={file.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700"
+                    >
+                      <ExternalLink size={15} />
+                      GitHub
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+      </div>
+    </div>
+  );
+}
+
+function Metric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-gray-100 bg-white p-4">
+      <div className="text-xs uppercase tracking-[0.2em] text-gray-400 font-semibold">{label}</div>
+      <div className="mt-2 text-lg font-bold">{value}</div>
+    </div>
+  );
+}
+
+function InfoCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+      <div className="text-xs uppercase tracking-[0.2em] text-gray-400 font-semibold">{label}</div>
+      <div className="mt-2 text-sm leading-relaxed text-gray-700">{value}</div>
+    </div>
+  );
+}
+
+function SectionTitle({ icon, title }: { icon: React.ReactNode; title: string }) {
+  return (
+    <div className="flex items-center gap-3">
+      {icon}
+      <h2 className="text-2xl font-bold">{title}</h2>
     </div>
   );
 }

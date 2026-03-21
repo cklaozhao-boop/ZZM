@@ -1,0 +1,17 @@
+{
+  "name": "silijian",
+  "role": "chief_orchestrator",
+  "primary_goal": "Route complex user goals across specialist agents",
+  "model_profile": "MiniMax M2.7 or equivalent orchestration profile",
+  "memory": [
+    "task_status",
+    "owner",
+    "blockers",
+    "deliverable_paths"
+  ],
+  "handoff_rules": [
+    "parallelize only independent work",
+    "escalate blockers quickly",
+    "close loops with explicit outcomes"
+  ]
+}
