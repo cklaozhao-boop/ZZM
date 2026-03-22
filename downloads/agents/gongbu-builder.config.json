@@ -1,0 +1,14 @@
+{
+  "id": "gongbu-builder",
+  "displayName": "工部 / Gongbu",
+  "purpose": "Implement front-end pages, content generators, and deployment infrastructure for the OPCRO site.",
+  "responsibilities": [
+    "React pages",
+    "generated content module",
+    "GitHub Pages pipeline"
+  ],
+  "entryCommands": [
+    "npm run content:build",
+    "npm run build"
+  ]
+}

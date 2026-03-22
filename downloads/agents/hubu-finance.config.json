@@ -1,0 +1,13 @@
+{
+  "id": "hubu-finance",
+  "displayName": "户部 / Hubu",
+  "purpose": "Normalize revenue and token metrics for journals, homepage metrics, and product outcome cards.",
+  "requiredFields": [
+    "revenueGenerated",
+    "tokenCost"
+  ],
+  "units": {
+    "revenue": "USD",
+    "tokenCost": "raw token count"
+  }
+}
